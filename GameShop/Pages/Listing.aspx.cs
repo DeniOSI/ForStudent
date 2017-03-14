@@ -12,24 +12,34 @@ namespace GameShop.Pages
     public partial class Listing : System.Web.UI.Page
     {
         private Repository repository = new Repository();
-        private int pageSize = 3;
+        private int pageSize = 4;
 
-        protected int CurrentPage
+        private int GetPageFromReuest() //Получение страницы с запроса
+        {
+            int page;
+            string reqValue = (string)RouteData.Values["page"] ?? Request.QueryString["page"];
+            return reqValue != null && int.TryParse(reqValue, out page)? page : 1;
+        }
+
+
+        protected int CurrentPage //текущая страница
         {
             get
             {
                 int page;
-                page = int.TryParse(Request.QueryString["page"], out page) ? page : 1;
+                page = GetPageFromReuest();
                 return page > MaxPage ? MaxPage : page;
             }
         }
 
-        public int MaxPage { get {
+        public int MaxPage // максимальное количество страниц вычисляется по количеству записей
+        {
+            get {
                 return (int)Math.Ceiling((decimal)repository.Games.Count() / pageSize);
             }
             }
 
-        protected IEnumerable<Game> GetGames()
+        protected IEnumerable<Game> GetGames() // получение списка игр с базы
         {
 
             return repository.Games.OrderBy(g => g.GameID).Skip((CurrentPage - 1) * pageSize).Take(pageSize);

@@ -1,15 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Listing.aspx.cs" Inherits="GameShop.Pages.Listing" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Listing.aspx.cs" Inherits="GameShop.Pages.Listing" MasterPageFile ="~/Pages/Store.Master" %>
+<%@ Import Namespace="System.Web.Routing" %>
+<asp:Content ContentPlaceHolderID="bodyContent" runat="server">
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div>
+        <div id="content">
             <%
                 
                 foreach (GameShop.Models.Game game in GetGames())
@@ -19,16 +12,15 @@
                 }
                  %>
         </div>
-</form>
-        <div>
+
+        <div class="pager">
             <%
-                    for(int i = 1; i< MaxPage; i++)
-                    {
-                        Response.Write(String.Format(@"<a href='/Pages/Listing.aspx?page={0}', {1}>{2}</a>", 
-                            i, i == CurrentPage ? "class='selected'" : "", i  ));
-                    }
+                for(int i = 1; i< MaxPage; i++)
+                {
+                    string path = RouteTable.Routes.GetVirtualPath(null, null, new RouteValueDictionary() { { "page", i } }).VirtualPath;
+                    Response.Write(String.Format(@"<a href='/Pages/Listing.aspx?page={0}', {1}>{2}</a>   ",
+                        path, i == CurrentPage ? "class='selected'" : "", i  ));
+                }
                  %>
         </div>
-    
-</body>
-</html>
+</asp:Content>

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
+using System.Web.Routing;
+
 
 namespace GameShop
 {
@@ -13,6 +15,7 @@ namespace GameShop
         protected void Application_Start(object sender, EventArgs e)
         {
 
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 
         protected void Session_Start(object sender, EventArgs e)

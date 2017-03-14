@@ -7,9 +7,9 @@
 // </автоматически создаваемое>
 //------------------------------------------------------------------------------
 
-namespace GameShop.Pages {
+namespace GameShop.Controls {
     
     
-    public partial class Listing {
+    public partial class CategoryList {
     }
 }
